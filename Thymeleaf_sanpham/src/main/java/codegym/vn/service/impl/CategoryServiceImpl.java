@@ -3,13 +3,14 @@ package codegym.vn.service.impl;
 import codegym.vn.model.Category;
 import codegym.vn.service.CategoryService;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Service
 public class CategoryServiceImpl implements CategoryService {
     public static Map<Integer, Category> categoryMap;
     static {

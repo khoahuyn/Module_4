@@ -4,13 +4,14 @@ import codegym.vn.model.Product;
 import codegym.vn.service.CategoryService;
 import codegym.vn.service.ProductService;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Service
 public class ProductServiceImpl implements ProductService {
     private Map<Integer, Product> productMap = new HashMap<>();
 

@@ -11,7 +11,7 @@ import java.util.*;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
-    private Map<Integer, Product> productMap = new HashMap<>();
+    private final Map<Integer, Product> productMap = new HashMap<>();
 
     public ProductRepositoryImpl() {
         CategoryRepository categoryRepository = new CategoryRepositoryImpl();
