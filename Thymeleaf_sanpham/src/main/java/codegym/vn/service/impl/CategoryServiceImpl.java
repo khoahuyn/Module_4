@@ -1,7 +1,9 @@
 package codegym.vn.service.impl;
 
 import codegym.vn.model.Category;
+import codegym.vn.repository.impl.CategoryRepositoryImpl;
 import codegym.vn.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -12,50 +14,30 @@ import java.util.Map;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    public static Map<Integer, Category> categoryMap;
-    static {
-        categoryMap = new HashMap<>();
-        categoryMap.put(1, new Category(1, "Laptop"));
-        categoryMap.put(2, new Category(2, "Smartphone"));
-        categoryMap.put(3, new Category(3, "Tivi"));
-        categoryMap.put(4, new Category(4, "Tu lanh"));
-    }
+    @Autowired
+    CategoryRepositoryImpl repository;
     @Override
     public boolean create(Category category) {
-        if (categoryMap.containsKey(category.getCategoryId())) {
-            return false;
-        }
-
-        categoryMap.put(category.getCategoryId(), category);
-        return true;
+        return repository.create(category);
     }
 
     @Override
     public boolean update(Category category) {
-        if (categoryMap.containsKey(category.getCategoryId())) {
-            categoryMap.put(category.getCategoryId(), category);
-            return true;
-        }
-
-        return false;
+        return repository.update(category);
     }
 
     @Override
     public Category findById(int id) {
-        return categoryMap.get(id);
+        return repository.findById(id);
     }
 
     @Override
     public List<Category> findAll() {
-        return new ArrayList<>(categoryMap.values());
+        return repository.findAll();
     }
 
     @Override
     public boolean deleteById(int id) {
-        if (categoryMap.containsKey(id)) {
-            categoryMap.remove(id);
-            return true;
-        }
-        return false;
+        return repository.deleteById(id);
     }
 }
