@@ -1,8 +1,20 @@
 package codegym.vn.entity;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "Category")
 public class Category {
+    @Id
+    @GeneratedValue
+    @Column(name = "category_id")
     private int categoryId;
+    @Column(name = "category_name", columnDefinition = "nvarchar(50)")
     private String categoryName;
+
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
     public Category() {
     }
@@ -26,5 +38,13 @@ public class Category {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

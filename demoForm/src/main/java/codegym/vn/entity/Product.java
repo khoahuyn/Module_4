@@ -1,15 +1,23 @@
 package codegym.vn.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Product {
+    @Id
     private int id;
+    @Column(columnDefinition = "nvarchar(100)")
     private String name;
     private int quantity;
-
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dateRelease;
     private double price;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
     public Product() {
