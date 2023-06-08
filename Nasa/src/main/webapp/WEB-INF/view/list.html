@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách feedback</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h1>Today Commends:</h1>
+<h3><a th:href="@{/addcomment}">Comment</a></h3>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>author</td>
+        <td>rate</td>
+        <td>date</td>
+        <td>feedback</td>
+        <td>Numoflikes</td>
+    </tr>
+    <tr th:each="c: ${nasaList}" th:object="${c}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{rating}"></td>
+        <td th:text="*{date}"></td>
+        <td th:text="*{feedback}"></td>
+        <td th:text="*{likes}"></td>
+    </tr>
+</table>
+</body>
+</html>
