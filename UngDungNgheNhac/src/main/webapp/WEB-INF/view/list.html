@@ -31,7 +31,10 @@
         <td th:text="*{name}"></td>
         <td th:text="*{singer}"></td>
         <td th:text="*{kind}"></td>
-        <td th:text="*{link}"></td>
+
+        <td>
+            <a th:href="@{*{link}}" th:text="*{link}"></a>
+        </td>
 
         <td>
             <button><a th:href="@{/update/{id}(id=*{id})}">Update</a></button>
