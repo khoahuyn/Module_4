@@ -3,20 +3,24 @@ package codegym.vn.controller;
 import codegym.vn.entity.Product;
 import codegym.vn.repository.CategoryRepository;
 import codegym.vn.repository.ProductRepository;
+import codegym.vn.service.CategoryService;
+import codegym.vn.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PreUpdate;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryRepository;
     @GetMapping("/list")
     public String showList(Model model) {
         model.addAttribute("products", productRepository.findAll());
@@ -57,5 +61,13 @@ public class ProductController {
         product.setCategory(categoryRepository.findById(product.getCategory().getCategoryId()));
         productRepository.update(product);
         return "redirect:/product/list";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("name") String name, Model model) {
+        List<Product> productList = productRepository.findProductByName(name);
+        model.addAttribute("products", productList);
+        model.addAttribute("name", name);
+        return "product_thymleaf/list";
     }
 }

@@ -5,6 +5,10 @@
     <title>List product</title>
 </head>
 <body>
+    <form th:action="@{/product/search}" method="get" >
+        Name: <input type="text" name="name" th:value="${name != null ? name: ''}">
+       <input type="submit" value="Search">
+    </form>
     <table>
         <tr>
             <th>ID</th>

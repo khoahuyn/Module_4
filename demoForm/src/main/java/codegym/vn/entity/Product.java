@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "findProductByName",
+        query = "select p from Product p where p.name like '%:name%'")
+})
 public class Product {
     @Id
     private int id;

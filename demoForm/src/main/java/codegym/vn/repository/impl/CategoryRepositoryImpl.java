@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
 @Transactional
 public class CategoryRepositoryImpl implements CategoryRepository {
     @PersistenceContext
