@@ -1,9 +1,10 @@
-package codegym.vn.entity;
+package codegym.vn.test.model;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "Category")
 public class Category {
     @Id
     @GeneratedValue
@@ -13,12 +14,13 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    private List<Blog> blogList;
+
 
     public Category() {
     }
 
-    public Category(int categoryId, String categoryName) {
+    public Category(Integer categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
     }
@@ -39,11 +41,13 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Blog> getBlogList() {
+        return blogList;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
     }
+
+
 }

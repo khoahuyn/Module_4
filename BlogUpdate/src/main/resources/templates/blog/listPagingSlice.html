@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
+<body>
+<h1>Show list</h1>
+<h3><a th:href="@{/create}">Create</a></h3>
+
+<form th:action="@{/search}" method="get">
+    Title: <input type="text" name="title" th:value="${title != null ? title: ''}">
+    <input type="submit" value="Search">
+</form>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Name Blog</th>
+        <th>DateRelease</th>
+        <th>Content</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="b :${blogList}" th:object="${b}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{title}"></td>
+        <td th:text="*{category.categoryName}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{#dates.format(dateRelease, 'yyyy-MM-dd')}"></td>
+        <td>
+            <textarea th:text="*{content}"></textarea>
+        </td>
+        <td>
+            <a th:href="@{/delete(id=*{id})}">Delete</a>
+            <a th:href="@{/update(id=*{id})}">Update</a>
+        </td>
+    </tr>
+</table>
+
+<div >
+    <a th:if="${page.hasPrevious()}" th:href="@{/listpagingslice(size=${page.size}, page=${page.getNumber()})}"
+       th:text="${page.getNumber()}"></a>
+    <a th:if="${page.hasNext() || page.hasPrevious()}" th:href="@{/listpagingslice(size=${page.size}, page=${page.getNumber() + 1})}"
+       th:text="${page.getNumber() + 1}"></a>
+    <a th:if="${page.hasNext()}" th:href="@{/listpagingslice(size=${page.size}, page=${page.getNumber() + 2})}"
+       th:text="${page.getNumber() + 2}"></a>
+</div>
+</body>
+</html>
