@@ -36,7 +36,7 @@ public class NasaServiceImpl implements INasaService {
 
     @Override
     public void addLike(Nasa nasa) {
-        if(nasa.getLikes()!=0){
+        if(nasa.getLikes()!=0 || nasa.getLikes()==0){
             int newLike=nasa.getLikes()+1;
             nasa.setLikes(newLike);
             repository.save(nasa);

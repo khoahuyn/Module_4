@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bức ảnh trong ngày</title>
+    <style>
+        #hien th t {
+            border: 1px solid black;
+        }
+
+        .abc td {
+            border: 1px solid black;
+
+        }
+
+        #hien {
+            border-collapse: collapse;
+        }
+
+
+    </style>
+</head>
+<body>
+<img width="25%" id="img-of-the-day"
+     src="https://vcdn-vnexpress.vnecdn.net/2020/04/12/HH-901-and-HH-902-in-the-Carin-4272-5374-1586679438.jpg">
+
+<form th:action="@{/addcomment}" method="post" th:object="${nasa}">
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><input type="hidden" th:field="*{id}"></td>
+        </tr>
+        <tr>
+            <td>Rating</td>
+            <td>
+                <select th:field="*{rating}">
+                    <option th:value="1">1 sao</option>
+                    <option th:value="2">2 sao</option>
+                    <option th:value="3">3 sao</option>
+                    <option th:value="4">4 sao</option>
+                    <option th:value="5">5 sao</option>
+                </select>
+            </td>
+
+        </tr>
+        <tr>
+            <td>Author</td>
+            <td><input th:field="*{author}"></td>
+        </tr>
+        <tr>
+            <td>Feedback</td>
+            <td><textarea th:field="*{feedback}"></textarea></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+</form>
+
+
+<table id="hien">
+    <tr>
+        <th>ID</th>
+        <th>author</th>
+        <th>rate</th>
+        <th>date</th>
+        <th>feedback</th>
+        <th>Numoflikes</th>
+        <th>Action</th>
+
+    </tr>
+    <tr th:each="c: ${nasaList}" th:object="${c}" class="abc">
+        <td th:text="*{id}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{rating}"></td>
+        <td th:text="*{date}"></td>
+        <td th:text="*{feedback}"></td>
+        <td th:text="*{likes}"></td>
+        <td>
+            <a th:href="@{/addLike(id=*{id})}">Like</a>
+        </td>
+    </tr>
+</table>
+
+
+<div>
+    <a th:if="${page.hasPrevious()}" th:href="@{/listpagingslice(size=${page.size}, page=${page.getNumber()})}"
+       th:text="${page.getNumber()}"></a>
+    <a th:if="${page.hasNext() || page.hasPrevious()}"
+       th:href="@{/listpagingslice(size=${page.size}, page=${page.getNumber() + 1})}"
+       th:text="${page.getNumber() + 1}"></a>
+    <a th:if="${page.hasNext()}" th:href="@{/listpagingslice(size=${page.size}, page=${page.getNumber() + 2})}"
+       th:text="${page.getNumber() + 2}"></a>
+</div>
+
+
+<script>
+    let d = new Date();
+    document.getElementById("today").innerHTML = d;
+    let query = 'https://api.nasa.gov/planetary/apod?api_key=MIf1UQpSQph0tsHuWnvp14cw1k442nx4tDgyUZtR';
+    let request = new XMLHttpRequest();
+    request.open('GET', query);
+    request.onload = function () {
+        if (request.status === 200) {
+            let response = JSON.parse(request.responseText);
+            document.getElementById('img-of-the-day').setAttribute('src', response.url);
+        }
+    };
+    request.send();
+
+
+</script>
+
+</body>
+</html>
