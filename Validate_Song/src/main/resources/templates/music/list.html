@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h1>Show List</h1>
+<h3><a th:href="@{/create}">Create</a></h3>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>Tên Bài Hát</td>
+        <td>Nghệ Sỹ </td>
+        <td>Thể Loại </td>
+        <td>Đường dẫn </td>
+        <td>Action</td>
+    </tr>
+
+    <tr th:each="m: ${musicList}" th:object="${m}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{singer}"></td>
+        <td th:text="*{kind}"></td>
+
+        <td>
+            <a th:href="@{*{link}}" th:text="*{link}"></a>
+        </td>
+
+        <td>
+            <button><a th:href="@{/update/{id}(id=*{id})}">Update</a></button>
+        </td>
+
+    </tr>
+</table>
+</body>
+</html>
