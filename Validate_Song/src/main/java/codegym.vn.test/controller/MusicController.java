@@ -30,6 +30,7 @@ public class MusicController {
     }
     @PostMapping("/create")
     public String doCreate(@Valid @ModelAttribute("music") Music music, BindingResult bindingResult) {
+        new Music().validate(music, bindingResult);
         if(bindingResult.hasErrors()){
             return "music/create";
         }

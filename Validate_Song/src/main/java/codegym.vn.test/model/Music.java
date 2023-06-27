@@ -1,38 +1,28 @@
 package codegym.vn.test.model;
 
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+
 
 @Entity
-public class Music {
+public class Music implements Validator {
     @Id
     @GeneratedValue
     private Integer id;
 
     @Column(columnDefinition = "nvarchar(100)")
-    @NotBlank( message = "Tên bài hát k dc để trống")
-    @Size(max = 800)
-    @Pattern(regexp =  "^[a-zA-Z0-9]+$")
     private String name;
 
-    @Column(columnDefinition = "nvarchar(100)")
-    @NotBlank( message = "Tên nghệ sĩ k dc để trống")
-    @Size(max = 300)
-    @Pattern(regexp =  "^[a-zA-Z0-9]+$")
     private String singer;
 
-    @Column(columnDefinition = "nvarchar(100)")
-    @NotBlank( message = "Thể loại k dc để trống")
-    @Size(max = 1000)
-    @Pattern(regexp =  "^[a-zA-Z0-9,]+$")
     private String kind;
 
-    @Column(columnDefinition = "nvarchar(100)")
     private String link;
 
 
@@ -85,5 +75,54 @@ public class Music {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Music music=(Music) target;
+        name=music.getName();
+        singer=music.getSinger();
+        kind=music.getKind();
+        String[] specialCharacters = { "@", ";", ".", "=", "-", "+",","};
+
+
+        ValidationUtils.rejectIfEmpty(errors,"name","name.empty","Name not empty.");
+        if (name.length() > 800) {
+            errors.rejectValue("name", "name.length","Name is not more 800 characters.");
+        }
+        for(int i=0;i<specialCharacters.length;i++){
+            if(name.contains(specialCharacters[i])){
+                errors.rejectValue("name", "name.special"," Name does not contain special characters.");
+                break;
+            }
+        }
+
+        ValidationUtils.rejectIfEmpty(errors,"singer","singer.empty","Singer not empty.");
+        if (singer.length() > 300) {
+            errors.rejectValue("singer", "singer.length","Singer is not more 300 characters.");
+        }
+        for(int i=0;i<specialCharacters.length;i++){
+            if(singer.contains(specialCharacters[i])){
+                errors.rejectValue("singer", "singer.special","Singer does not contain special characters.");
+                break;
+            }
+        }
+
+        ValidationUtils.rejectIfEmpty(errors,"kind","kind.empty","Kind of music not empty.");
+        if ( kind.length() > 1000) {
+            errors.rejectValue("kind", "kind.length","Kind is not more 1000 characters.");
+        }
+        for(int i=0;i<specialCharacters.length;i++){
+            if(kind.contains(specialCharacters[i])){
+                errors.rejectValue("kind", "kind.special","Kind of music does not contain special characters.");
+                break;
+            }
+        }
     }
 }
