@@ -14,7 +14,6 @@
 </style>
 <body>
 <h1>Show list</h1>
-<h3><a th:href="@{/create}">Create</a></h3>
 
 <form th:action="@{/search}" method="get" >
     Name: <input type="text" name="name" th:value="${name != null ? name: ''}">
@@ -39,8 +38,8 @@
             <textarea th:text="*{quantity}"></textarea>
         </td>
         <td>
-            <a th:href="@{/brrow(id=*{bookId})}">Borrow</a>
-            <a th:href="@{/pay(id=*{bookId})}">Pay</a>
+            <a th:href="@{/borrow(bookId=*{bookId})}">Borrow</a>
+            <a th:href="@{/pay(bookId=*{bookId})}">Pay</a>
         </td>
     </tr>
 </table>

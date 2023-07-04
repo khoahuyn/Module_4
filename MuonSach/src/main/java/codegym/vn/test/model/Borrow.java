@@ -3,6 +3,8 @@ package codegym.vn.test.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 
@@ -26,7 +28,7 @@ public class Borrow {
 
 
     @Column(name = "status")
-    private boolean status;
+    private boolean status = false;
 
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "book_id")

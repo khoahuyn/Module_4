@@ -1,6 +1,7 @@
 package codegym.vn.test.controller;
 
 import codegym.vn.test.model.Book;
+import codegym.vn.test.model.Borrow;
 import codegym.vn.test.service.IBookService;
 import codegym.vn.test.service.IBorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,66 +39,55 @@ public class BookController {
         return "book/list";
     }
 
-//    @GetMapping("/create")
-//    public String showCreate(Model model) {
-//        model.addAttribute("book", new Book());
-//        model.addAttribute("borrows", borrowService.findAll());
-//        return "book/create";
-//    }
-//
-//    @PostMapping("/create")
-//    public String doCreate(@ModelAttribute("book") Book book) {
-//        book.setCategory(categoryService.findById(book.getCategory().getCategoryId()));
-//        service.create(book);
-//        return "redirect:/book";
-//    }
-//
-//    @GetMapping("/update")
-//    public String showUpdate(@RequestParam("id") Integer id, Model model) {
-//        model.addAttribute("blog", service.findById(id));
-//        model.addAttribute("categories", categoryService.findAll());
-//        return "blog/update";
-//    }
-//
-//    @PostMapping("/update")
-//    public String doUpdate(@ModelAttribute("blog") Book book) {
-//        book.setCategory(categoryService.findById(book.getCategory().getCategoryId()));
-//        service.update(book);
-//        return "redirect:/blog";
-//    }
-//
-//    @GetMapping("/delete")
-//    public String doDelete(@RequestParam("id") Integer id, Model model) {
-//        model.addAttribute("blog", service.findById(id));
-//        service.deleteById(id);
-//        return "redirect:/blog";
-//    }
-//
-//    @GetMapping("/search")
-//    public String search(@RequestParam("name") String name, Model model) {
-//        List<Book> bookList = service.findAllByName(name);
-//        model.addAttribute("blogList", bookList);
-//        model.addAttribute("name", name);
-//        return "blog/list";
-//    }
-//
-//
-//    @GetMapping("/listpaging")
-//    public String listPaging(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-//        Page<Book> blogList = service.findAllWithPaging(PageRequest.of(page, 4));
-//        model.addAttribute("blogList", blogList);
-//        return "blog/listPaging";
-//    }
-//
-//    @GetMapping(value = "/listpagingslice")
-//    public String listPagingSlice(Model model, @RequestParam("page") Optional<Integer> page,
-//                                  @RequestParam("size") Optional<Integer> size) {
-//        int currentPage = page.orElse(1);
-//        int pageSize = size.orElse(3);
-//        Slice<Book> blogList = service.findAllWithSlice(PageRequest.of(currentPage - 1, pageSize));
-//        model.addAttribute("blogList", blogList.getContent());
-//        model.addAttribute("page", blogList);
-//        return "blog/listPagingSlice";
-//    }
+
+    @GetMapping("/borrow")
+    public String showBorrow(@RequestParam("bookId") Integer bookId, Model model) throws ParseException {
+        Borrow borrow = new Borrow();
+        LocalDateTime today = LocalDateTime.now();
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(today));
+        borrow.setBorrowedDate(date);
+        borrow.setUserId((int)(10000+Math.random()*9999));
+        model.addAttribute("books", service.findById(bookId));
+        model.addAttribute("borrow", borrow);
+        return "book/borrow";
+    }
+
+    @PostMapping("/borrow")
+    public String doBorrow(@ModelAttribute("borrow") Borrow borrow)throws Exception{
+        if (borrow.getBook().getQuantity() > 0 ){
+            borrow.getBook().setQuantity(borrow.getBook().getQuantity() - 1);
+        }
+
+        borrowService.create(borrow);
+        return "redirect:/listUser";
+    }
+
+
+    @GetMapping("/pay")
+    public String showPay(@RequestParam("bookId") Integer bookId, Model model) throws ParseException {
+        Borrow borrow = new Borrow();
+        LocalDateTime today = LocalDateTime.now();
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(today));
+        borrow.setPayDay(date);
+        borrow.setUserId((int)(10000+Math.random()*9999));
+        model.addAttribute("books", service.findById(bookId));
+        model.addAttribute("borrow", borrow);
+        return "book/borrow";
+    }
+
+    @GetMapping("/listUser")
+    public String showListUser(Model model) {
+        model.addAttribute("borrow", borrowService.findAll());
+        return "book/listUser";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("name") String name, Model model) {
+        List<Book> bookList = service.findAllByName(name);
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("name", name);
+        return "book/list";
+    }
+
 
 }
