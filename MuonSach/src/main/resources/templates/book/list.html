@@ -20,6 +20,9 @@
     <input type="submit" value="Search">
 </form>
 
+<h3><a th:href="@{/listUser}">Go to listUser</a></h3>
+
+
 <table>
     <tr>
         <th>ID</th>
@@ -39,7 +42,6 @@
         </td>
         <td>
             <a th:href="@{/borrow(bookId=*{bookId})}">Borrow</a>
-            <a th:href="@{/pay(bookId=*{bookId})}">Pay</a>
         </td>
     </tr>
 </table>

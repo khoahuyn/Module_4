@@ -5,9 +5,6 @@ import codegym.vn.test.model.Borrow;
 import codegym.vn.test.service.IBookService;
 import codegym.vn.test.service.IBorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
@@ -64,16 +58,24 @@ public class BookController {
 
 
     @GetMapping("/pay")
-    public String showPay(@RequestParam("bookId") Integer bookId, Model model) throws ParseException {
-        Borrow borrow = new Borrow();
+    public String showPay(@RequestParam("userId") Integer userId, Model model) throws ParseException {
+        Borrow borrow = borrowService.findById(userId);
+        model.addAttribute("borrow", borrow);
+        model.addAttribute("books", borrow.getBook());
+        return "book/pay";
+    }
+
+    @PostMapping("/pay")
+    public String doPay(@ModelAttribute("borrow") Borrow borrow)throws Exception{
         LocalDateTime today = LocalDateTime.now();
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(today));
         borrow.setPayDay(date);
-        borrow.setUserId((int)(10000+Math.random()*9999));
-        model.addAttribute("books", service.findById(bookId));
-        model.addAttribute("borrow", borrow);
-        return "book/borrow";
+        borrow.setStatus(true);
+        borrow.getBook().setQuantity(borrow.getBook().getQuantity() +1);
+        borrowService.update(borrow);
+        return "redirect:/listUser";
     }
+
 
     @GetMapping("/listUser")
     public String showListUser(Model model) {

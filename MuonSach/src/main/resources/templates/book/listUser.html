@@ -14,21 +14,28 @@
 </style>
 <body>
 <h1>Show list user</h1>
+<h3><a th:href="@{/book}">Return list book</a></h3>
 <table>
   <tr>
     <th>userId</th>
     <th>userName</th>
-    <th>book.name</th>
+    <th>Ten sach</th>
     <th>borrowedDate</th>
+    <th>payDate</th>
     <th>status</th>
+    <td>Action</td>
   </tr>
   <tr th:each="b :${borrow}" th:object="${b}">
     <td th:text="*{userId}"></td>
     <td th:text="*{userName}"></td>
     <td th:text="*{book.name}"></td>
     <td th:text="*{#dates.format(borrowedDate,'yyyy-MM-dd')}"></td>
+    <td th:text="*{#dates.format(payDay,'yyyy-MM-dd')}"></td>
     <td th:if="*{status}">Đã trả</td>
     <td th:if="*{!status}">Đang mượn</td>
+    <td>
+      <a th:href="@{/pay(userId=*{userId})}">Pay</a>
+    </td>
 
   </tr>
 </table>
