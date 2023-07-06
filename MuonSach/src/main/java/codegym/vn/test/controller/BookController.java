@@ -5,6 +5,9 @@ import codegym.vn.test.model.Borrow;
 import codegym.vn.test.service.IBookService;
 import codegym.vn.test.service.IBorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -89,6 +93,29 @@ public class BookController {
         model.addAttribute("bookList", bookList);
         model.addAttribute("name", name);
         return "book/list";
+    }
+
+
+
+    @GetMapping("/listpaging")
+    public String listPaging(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+        Page<Borrow>  borrow= borrowService.findAllWithPaging(PageRequest.of(page, 4));
+        model.addAttribute("borrow", borrow);
+        return "book/listPaging";
+    }
+
+
+
+
+    @GetMapping(value = "/listpagingslice")
+    public String listPagingSlice(Model model, @RequestParam("page") Optional<Integer> page,
+                                  @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(3);
+        Slice<Borrow> borrow= borrowService.findAllWithSlice(PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("borrow", borrow.getContent());
+        model.addAttribute("page", borrow);
+        return "book/listPagingSlice";
     }
 
 

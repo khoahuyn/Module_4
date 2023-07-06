@@ -5,6 +5,9 @@ package codegym.vn.test.service;
 import codegym.vn.test.model.Borrow;
 import codegym.vn.test.repository.IBorrowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +38,16 @@ public class BorrowImpl implements IBorrowService {
         if (repository.existsById(borrow.getUserId())){
             repository.save(borrow);
         }
+    }
+
+    @Override
+    public Page<Borrow> findAllWithPaging(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public Slice<Borrow> findAllWithSlice(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
 
