@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sach</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+</head>
+<body>
+<h1>List Product Paging</h1>
+<h3><a th:href="@{/create}">Create Product</a></h3>
+
+<form th:action="@{/search}" method="get">
+    SearchWithName:<input type="text" name="name" th:value="${name !=null ?name:''}">
+    <input type="submit" value="Search">
+</form>
+
+<table>
+    <tr>
+        <th>ProductId</th>
+        <th>Author</th>
+        <th>Name</th>
+        <th>CategoryName</th>
+        <th>Description</th>
+        <th>DateRelease</th>
+        <th>Content</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="p:${productList}" th:object="${p}">
+        <td th:text="*{productId}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{category.categoryName}"></td>
+        <td th:text="*{description}"></td>
+        <td th:text="*{#dates.format(dateRelease,'yyyy-MM-dd')}"></td>
+        <td>
+            <textarea th:text="*{content}"></textarea>
+        </td>
+
+        <td>
+            <a th:href="@{/update(productId=*{productId})}">Update</a>
+            <a th:href="@{/delete(productId=*{productId})}">Delete</a>
+        </td>
+    </tr>
+</table>
+
+<div>
+    <span>
+        <a th:if="${productList.hasPrevious()}" th:href="@{/listpaging(page = ${productList.number - 1})}">Previous</a>
+    </span>
+    <span th:each="pageNo: ${#numbers.sequence(0,productList.totalPages - 1)}">
+        <a th:href="@{/listpaging(page = ${pageNo})}" th:text="${pageNo}"></a>
+    </span>
+    <span>
+        <a th:if="${productList.hasNext()}" th:href="@{/listpaging(page = ${productList.number +1})}">Next</a>
+    </span>
+</div>
+</body>
+</html>

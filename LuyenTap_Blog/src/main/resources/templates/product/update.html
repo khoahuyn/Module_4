@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+</head>
+<body>
+<form th:href="@{/update}" method="post" th:object="${product}">
+    <table class="table">
+        <tr>
+            <td>ProductId:</td>
+            <td><input type="hidden" th:field="*{productId}"></td>
+        </tr>
+        <tr>
+            <td>Author:</td>
+            <td><input type="text" th:field="*{author}"></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+        <tr>
+            <td>Category:</td>
+            <td>
+                <select th:field="*{category.categoryId}">
+                    <option th:each="c:${categories} " th:text="${c.categoryName}" th:value="${c.categoryId}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td><input type="text" th:field="*{description}"></td>
+        </tr>
+        <tr>
+            <td>DateRelease:</td>
+            <td><input type="text" th:field="*{dateRelease}" placeholder="yyyy-MM-dd"></td>
+        </tr>
+        <tr>
+            <td>Content:</td>
+            <td>
+                <textarea  th:field="*{content}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td><input class="btn btn-primary" type="submit" value="Update"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

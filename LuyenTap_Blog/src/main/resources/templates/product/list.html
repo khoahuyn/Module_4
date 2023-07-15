@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sach</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<h3><a class="btn btn-primary" th:href="@{/create}">Create Product</a></h3>
+
+<form th:action="@{/search}" method="get">
+    SearchWithName:<input type="text" name="name" th:value="${name !=null ?name:''}">
+    <input class="btn btn-success" type="submit" value="Search">
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ProductId</th>
+        <th>Author</th>
+        <th>Name</th>
+        <th>CategoryName</th>
+        <th>Description</th>
+        <th>DateRelease</th>
+        <th>Content</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+
+    <tbody>
+    <tr th:each="p:${productList}" th:object="${p}">
+        <td th:text="*{productId}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{category.categoryName}"></td>
+        <td th:text="*{description}"></td>
+        <td th:text="*{#dates.format(dateRelease,'yyyy-MM-dd')}"></td>
+        <td>
+            <textarea th:text="*{content}"></textarea>
+        </td>
+
+        <td>
+            <a class="btn btn-info" th:href="@{/detail(productId=*{productId})}">Detail</a>
+            <a class="btn btn-primary" th:href="@{/update(productId=*{productId})}">Update</a>
+            <a class="btn btn-danger" th:href="@{/delete(productId=*{productId})}" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</table>
+
+
+</body>
+</html>
