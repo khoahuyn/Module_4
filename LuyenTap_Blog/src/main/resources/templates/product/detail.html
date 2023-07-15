@@ -8,7 +8,7 @@
 </head>
 <body>
 <form th:href="@{/detail}" method="get" th:object="${product}">
-  <table class="table">
+  <table class="table table-striped">
     <tr>
       <td>ProductId:</td>
       <td th:text="*{productId}"></td>

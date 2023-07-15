@@ -1,0 +1,15 @@
+create database a01022004;
+use a01022004;
+
+insert into product(product_Id,author,name,description,date_Release,content,category_Id)
+values	(1,"AT","mimikua","so great","2004-02-01","DA",1),
+		(2,"YN","pikachu","very bad","2002-02-04","DA",2),
+		(3,"ML","quataru","whaoooo","2003-03-22","DA",3);
+
+
+
+
+insert into Category(category_Id,category_Name)
+values	(1,"TV"),
+		(2,"iPHONE"),
+		(3,"LAPTOP");

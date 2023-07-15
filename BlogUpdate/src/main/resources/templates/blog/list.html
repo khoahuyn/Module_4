@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<style>
-    table, th, td{
-        border:1px solid black;
-    }
-    table{
-        border-collapse:collapse;
-    }
-</style>
 <body>
 <h1>Show list</h1>
 <h3><a th:href="@{/create}">Create</a></h3>
@@ -32,6 +24,8 @@
         <th>Content</th>
         <th>Action</th>
     </tr>
+
+
     <tr th:each="b :${blogList}" th:object="${b}">
         <td th:text="*{id}"></td>
         <td th:text="*{author}"></td>
@@ -47,8 +41,8 @@
             <a th:href="@{/update(id=*{id})}">Update</a>
         </td>
     </tr>
-</table>
 
+</table>
 </body>
 </html>
 
