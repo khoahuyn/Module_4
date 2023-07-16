@@ -44,10 +44,14 @@
         <td>
             <a class="btn btn-info" th:href="@{/detail(productId=*{productId})}" role="button">Detail</a>
             <a class="btn btn-primary" th:href="@{/update(productId=*{productId})}" role="button">Update</a>
-            <a class="btn btn-danger" th:href="@{/delete(productId=*{productId})}" data-toggle="modal"
-               data-target="#exampleModal" role="button">Delete</a>
+<!--            <a class="btn btn-danger" th:href="@{/delete(productId=*{productId})}" data-toggle="modal"-->
+<!--               data-target="{productId}" role="button">Delete-->
+<!--            </a>-->
 
-            <a th:href="@{/delete(productId=*{productId})}">
+            <a th:onclick="showDeleteModal([[*{productId}]], [[*{name}]])" class="btn btn-danger" type="button"
+               data-toggle="modal"
+               data-target="#exampleModal">Delete</a>
+
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,19 +68,28 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <form th:action="@{/delete}">
+                                    <input type="hidden" name="id" id="id">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </a>
         </td>
+
     </tr>
     </tbody>
 
 </table>
 
+<script>
+    function showDeleteModal(productId, name) {
+        document.getElementById('showId').innerText = name;
+        document.getElementById('id').value = productId;
+    }
 
+</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
