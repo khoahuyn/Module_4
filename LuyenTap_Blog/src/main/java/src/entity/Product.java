@@ -123,5 +123,21 @@ public class Product implements Validator {
         ValidationUtils.rejectIfEmpty(errors, "description", "description.empty", "Description not empty.");
         ValidationUtils.rejectIfEmpty(errors, "content", "content.empty", "Content not empty.");
 
+
+//
+//        ValidationUtils.rejectIfEmpty(errors, "productName", "productName.empty", null, "Not empty");
+//        if (productName.length() > 50){
+//            errors.rejectValue("productName",  "productName.empty", null, "Too long!");
+//        }
+//
+//        ValidationUtils.rejectIfEmpty(errors, "quantity",  "", null, "Not empty");
+//        if (quantity < 0){
+//            errors.rejectValue("quantity",  "", null, "Must be greater than 0!");
+//        }
+//
+//        ValidationUtils.rejectIfEmpty(errors, "price",  "", null, "Not empty");
+//        if (price < 0){
+//            errors.rejectValue("price",  "", null, "Must be greater than 0!");
+//        }
     }
 }

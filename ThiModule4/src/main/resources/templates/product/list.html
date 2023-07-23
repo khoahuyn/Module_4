@@ -10,21 +10,38 @@
 <h3><a class="btn btn-primary" th:href="@{/create}" role="button">Create Product</a></h3>
 
 <form th:action="@{/search}" method="get">
-    SearchWithName:<input type="text" name="name" th:value="${name !=null ?name:''}">
+    Tên sản phẩm:<input type="text" name="name" th:value="${name !=null ?name:''}">
     <input class="btn btn-success" type="submit" value="Search">
 </form>
+
+<br>
+
+<form th:action="@{/searchByPrice}" method="get">
+    Giá bắt đầu:<input type="number" name="price" th:value="${price !=null ?price:0}">
+    <input class="btn btn-success" type="submit" value="SearchPrice">
+</form>
+
+<br>
+
+<form th:action="@{/searchByCategory}" method="get">
+    Loai:<select  name="categoryId">
+        <option th:each="c:${categories}" th:text="${c.categoryName}" th:value="${c.categoryId}"></option>
+    </select>
+    <input class="btn btn-success" type="submit" value="SearchCategory">
+</form>
+
+<br>
+
 
 <table class="table table-striped">
     <thead>
     <tr>
-        <th scope="col">ProductId</th>
-        <th scope="col">Author</th>
-        <th scope="col">Name</th>
-        <th scope="col">CategoryName</th>
-        <th scope="col">Description</th>
-        <th scope="col">DateRelease</th>
-        <th scope="col">Content</th>
-        <th scope="col">Action</th>
+        <th scope="col">STT</th>
+        <th scope="col">Tên sản phẩm</th>
+        <th scope="col">Giá bắt đầu</th>
+        <th scope="col">Loại sản phẩm</th>
+        <th scope="col">Tình trạng</th>
+        <th scope="col">Hành động</th>
     </tr>
     </thead>
 
@@ -32,18 +49,13 @@
     <tbody>
     <tr th:each="p:${productList}" th:object="${p}">
         <th scope="row" th:text="*{productId}"></th>
-        <td th:text="*{author}"></td>
         <td th:text="*{name}"></td>
+        <td th:text="*{price}"></td>
         <td th:text="*{category.categoryName}"></td>
-        <td th:text="*{description}"></td>
-        <td th:text="*{#dates.format(dateRelease,'yyyy-MM-dd')}"></td>
-        <td>
-            <textarea th:text="*{content}"></textarea>
-        </td>
+        <td th:text="*{status}"></td>
 
         <td>
-            <a class="btn btn-info" th:href="@{/detail(productId=*{productId})}" role="button">Detail</a>
-            <a class="btn btn-primary" th:href="@{/update(productId=*{productId})}" role="button">Update</a>
+            <a class="btn btn-primary" th:href="@{/update(productId=*{productId})}" role="button">Sửa</a>
             <a th:onclick="showDeleteModal([[*{productId}]], [[*{name}]])" class="btn btn-danger" type="button"
                data-toggle="modal"
                data-target="#exampleModal">Delete</a>

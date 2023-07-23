@@ -31,7 +31,7 @@
       </tr>
       <tr>
           <td>DateRelease:</td>
-          <td th:text="*{dateRelease}"></td>
+          <td th:text="*{#dates.format(dateRelease,'yyyy-MM-dd')}"></td>
       </tr>
       <tr>
           <td>Content:</td>
